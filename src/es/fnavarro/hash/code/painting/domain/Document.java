@@ -40,8 +40,14 @@ public class Document {
 	
 	
 	public void fillLine(int i, boolean[] line) {
-		rows[i] = line;
+		rows[i] = line.clone();
+	}
+	
+	public boolean get(int row,int col){
+		return rows[row][col];
 	}
 
-	
+	public void deleteLine(int r1,int c1, int r2, int c2){
+		
+	}
 }
