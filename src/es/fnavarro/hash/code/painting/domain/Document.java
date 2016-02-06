@@ -1,8 +1,8 @@
 package es.fnavarro.hash.code.painting.domain;
 
-import java.io.File;
+import java.io.Serializable;
 
-public class Document {
+public class Document implements Serializable{
 	
 	private int totalCols;
 	private int totalRows;
@@ -49,5 +49,25 @@ public class Document {
 
 	public void deleteLine(int r1,int c1, int r2, int c2){
 		
+	}
+
+
+	public void deleteSquare(int i, int j, int s) {
+		for (int a = i - s; a <= i + s; a++) {
+			for (int b = j - s; b <= j + s; b++) {
+				rows[a][b]= false;						
+			}
+		}
+	}
+	
+	public String toString(){
+		String result ="";
+		for (int i=0;i<totalRows;i++){
+			for(int j=0;j<totalCols;j++){
+				result+=rows[i][j]?'#':'_';
+			}
+			result+="\n";
+		}
+		return result;
 	}
 }

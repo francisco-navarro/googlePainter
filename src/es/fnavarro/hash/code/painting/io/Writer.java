@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 
 import es.fnavarro.hash.code.painting.domain.Document;
 
@@ -50,8 +51,7 @@ public class Writer {
 					}
 					writeLine(i, j, i, --endLine);
 					j=endLine;
-				}
-				//TODO si es una solo, hacer cuadrado
+				}				
 			}
 		}
 		//TODO: do vertical and horizontal and compare
@@ -65,11 +65,52 @@ public class Writer {
 		newLine();
 	}
 
-	private void getSquares() throws IOException {
+	private void getSquares() throws Exception {
 		
-//		writer.write("PAINT_LINE 1 2");
-//		newLine();
+		//ArrayList<int[]> squares = 
+				
+		for(int i = 1; i<document.getTotalRows(); i++){
+			for (int j=1;j<document.getTotalCols(); j++){
+				if(document.get(i, j)){
+					//Compruebo si tiene mas de un area de 2, y pinto
+					int s=1;
+					while(j+(s*2) < document.getTotalCols() && checkArea(i,j,s)){
+						System.out.println("Have area "+i+" "+j+" "+s);
+						s++;
+					}
+					s--;
+					if(s>0){
+						writeSquare(i, j, s);
+						document.deleteSquare(i,j,s);
+						j+=s;
+					}
+					
+				}
+			}
+		}
 		
+	}
+
+	private boolean checkArea(int r, int c, int s) {
+		try {
+			for (int a = r - s; a <= r + s; a++) {
+				for (int b = c - s; b <= c + s; b++) {
+					if (!document.get(a, b)){
+						return false;
+					}
+				}
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return false;
+		}
+		return true;
+	}
+
+	private void writeSquare(int r, int c, int s) throws Exception{
+		countInstructions++;
+		writer.write("PAINT_SQUARE ");
+		writer.write(r + " "+ c+" " + s );
+		newLine();
 	}
 	
 	private void newLine() throws IOException{
