@@ -1,17 +1,21 @@
 package es.fnavarro.hash.code.painting;
 
 import java.io.File;
+import java.util.Date;
 
 import es.fnavarro.hash.code.painting.domain.Document;
 import es.fnavarro.hash.code.painting.io.Reader;
+import es.fnavarro.hash.code.painting.io.Writer;
 
 public class Engine {
 	
 	private Document document;
 	private File file;
+	private File output;
 
 	public static void main (String args[]) throws Exception{
 		File f = parseInputArgs(args);
+		
 		new Engine(f).read().write();
 	}
 
@@ -27,21 +31,29 @@ public class Engine {
 			throw new Exception("The file "+f.getAbsolutePath()+" does not exist.");
 		}
 		
+		
 		return f;
 	}
 	
-	public Engine(File file){
+	public Engine(File file) throws Exception{
 		this.file = file;
+		output = File.createTempFile("instructions",".tmp");
+		
 	}
 	
 	public Engine read() throws Exception{
+		System.out.println(new Date()+ " Reading file...");
 		this.document = Reader.read(file);
+		System.out.println(new Date()+ " File readed");
 		return this;
 	}
 	
-	public void write(){
+	public void write() throws Exception{
 		
+		new Writer(document, output).write();		
+		System.out.println("Writed "+output.getAbsolutePath());
 		
+		output.delete();
 	}
 	
 }

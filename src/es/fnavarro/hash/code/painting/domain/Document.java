@@ -9,13 +9,13 @@ public class Document {
 	
 
 	
-	private boolean[][]  cols;
+	private boolean[][]  rows;
 	
 	
 	public Document(int rows, int cols){
 		totalCols = cols;
 		totalRows = rows;
-		this.cols = new boolean[rows][cols];
+		this.rows = new boolean[rows][cols];
 	}
 
 
@@ -37,15 +37,10 @@ public class Document {
 	public void setTotalRows(int totalRows) {
 		this.totalRows = totalRows;
 	}
-
-
-	public boolean[][] getCols() {
-		return cols;
-	}
-
-
-	public void setCols(boolean[][] cols) {
-		this.cols = cols;
+	
+	
+	public void fillLine(int i, boolean[] line) {
+		rows[i] = line;
 	}
 
 	
